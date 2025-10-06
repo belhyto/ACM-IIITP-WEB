@@ -1,13 +1,16 @@
+
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
+import useRive from 'rive-react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { ContactForm } from '@/components/contact-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ArrowRight, Calendar, Users, Award, Briefcase, Lightbulb, PenTool, Bot, Handshake, Megaphone } from 'lucide-react';
-import { placeholderImages } from '@/lib/placeholder-images';
+import { ArrowRight, Calendar, Users, Award, Briefcase, Lightbulb, Bot, User } from 'lucide-react';
 
 type TeamMember = {
   id: string;
@@ -62,39 +65,39 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => (
 const TeamCategory = ({ title, members }: { title: string, members: TeamMember[] }) => (
   <div className="mb-12">
     <h3 className="text-2xl font-headline font-bold tracking-tighter sm:text-3xl text-center mb-8">{title}</h3>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-      {members.map((member) => {
-        const image = placeholderImages.find(img => img.id === member.imageId);
-        return (
-          <div key={member.id} className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2">
-            <Image
-              src={image?.imageUrl || ''}
-              alt={`Photo of ${member.name}`}
-              width={400}
-              height={400}
-              className="object-cover w-full h-full aspect-square"
-              data-ai-hint={image?.imageHint}
-            />
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-black/80 to-transparent p-4 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <div className="absolute bottom-4 left-4 right-4">
-                 <h3 className="font-headline text-xl font-bold text-white">{member.name}</h3>
-                 <p className="text-sm text-primary">{member.role}</p>
-                 <p className="mt-2 text-xs text-white/80">{member.bio}</p>
-              </div>
-            </div>
-             <div className="absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-black/80 to-transparent p-4 text-center transition-opacity duration-300 group-hover:opacity-0">
-                <h3 className="font-headline text-lg font-bold text-white">{member.name}</h3>
-                <p className="text-sm text-primary">{member.role}</p>
-             </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 justify-center">
+      {members.map((member) => (
+        <div key={member.id} className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 flex flex-col items-center justify-center">
+          <div className="w-full h-full aspect-square bg-card flex items-center justify-center">
+            <User className="w-24 h-24 text-muted-foreground" />
           </div>
-        );
-      })}
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-black/80 to-transparent p-4 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="absolute bottom-4 left-4 right-4">
+               <h3 className="font-headline text-xl font-bold text-white">{member.name}</h3>
+               <p className="text-sm text-primary">{member.role}</p>
+               <p className="mt-2 text-xs text-white/80">{member.bio}</p>
+            </div>
+          </div>
+           <div className="absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-black/80 to-transparent p-4 text-center transition-opacity duration-300 group-hover:opacity-0">
+              <h3 className="font-headline text-lg font-bold text-white">{member.name}</h3>
+              <p className="text-sm text-primary">{member.role}</p>
+           </div>
+        </div>
+      ))}
     </div>
   </div>
 );
 
 export default function Home() {
   const teamCategories = ['Faculty Advisor', 'Office Bearer', 'Vertical Head', 'Member'];
+  
+  const { RiveComponent } = useRive({
+    // You can find a public Rive file URL in the Rive Community Showcase
+    // or use your own. You'll need to replace this.
+    src: 'https://cdn.rive.app/animations/vehicles.riv',
+    autoplay: true,
+  });
+
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -104,7 +107,7 @@ export default function Home() {
         {/* Hero Section */}
         <Section className="!py-20 md:!py-32 lg:!py-40">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
-            <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
+            <div className="flex flex-col justify-center space-y-4 text-center lg:text-left animate-fade-in-down">
               <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
                 Welcome to <span className="text-primary">ACM IIIT Pune</span>
               </h1>
@@ -120,14 +123,9 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            <Image
-              src="https://picsum.photos/seed/hero/1200/800"
-              alt="Group of students working on laptops"
-              width={1200}
-              height={800}
-              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover"
-              data-ai-hint="students computers"
-            />
+            <div className="mx-auto aspect-video overflow-hidden rounded-xl animate-fade-in-up">
+              <RiveComponent className="w-full h-full" />
+            </div>
           </div>
         </Section>
 
@@ -141,7 +139,12 @@ export default function Home() {
 
         {/* Events Section */}
         <Section id="events">
-          <SectionTitle>Upcoming Events</SectionTitle>
+          <div className="flex justify-center items-center mb-12 relative">
+            <SectionTitle>Upcoming Events</SectionTitle>
+            <Button asChild variant="outline" className="absolute right-0 top-1/2 -translate-y-1/2">
+                <Link href="/events">Show All <ArrowRight className="ml-2 h-4 w-4" /></Link>
+            </Button>
+          </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {events.map((event, index) => (
               <Card key={index} className="flex flex-col">
