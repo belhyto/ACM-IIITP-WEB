@@ -30,7 +30,7 @@ export function Header() {
     <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'bg-background/80 backdrop-blur-sm border-b' : 'bg-transparent'}`}>
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg font-headline">
-          <Image src="/acm_logo_trans.png" alt="ACM IIIT Pune Logo" width={160} height={40} className="object-contain" />
+          <Image src="/acm_logo_trans.png" alt="ACM IIIT Pune Logo" width={120} height={30} className="object-contain" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -52,7 +52,7 @@ export function Header() {
             <SheetContent side="right">
               <div className="flex flex-col gap-6 p-6">
                 <Link href="/" className="flex items-center gap-2 font-bold text-lg font-headline">
-                  <Image src="/acm_logo_trans.png" alt="ACM IIIT Pune Logo" width={160} height={40} className="object-contain" />
+                  <Image src="/acm_logo_trans.png" alt="ACM IIIT Pune Logo" width={120} height={30} className="object-contain" />
                 </Link>
                 <nav className="flex flex-col gap-4 mt-4">
                   {navLinks.map((link) => (
